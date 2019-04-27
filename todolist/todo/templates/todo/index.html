@@ -1,0 +1,122 @@
+    {% extends "todo/base_generic.html" %}
+    {% load jalali_tags %}
+    {% load static %}
+
+    {% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'todo/css/index.css' %}">
+    {% endblock styles %}
+
+
+    {% block content%}
+    <div class="content">
+            <h1>TodoApp</h1>
+            <p class="tagline">a Django todo app</p>
+            <span> <a href="{% url 'logout' %}">logout</a></span>
+            <form action="" method="post">
+            {% csrf_token %} <!-- csrf token for basic security -->
+                <div class="inputContainer">
+                    <input type="text" id="title" class="taskName" placeholder="What do you need to do?" name="title" required>
+                    <label for="title">title</label>
+                </div>
+                <div class="inputContainer sm-12 md-12 last">
+                    <i class="fa fa-caret-down selectArrow"></i>
+                    <select id="group" class="taskGroup" name="group_select">
+                    <option class="disabled" value="">Choose a group</option>
+                    {% for group in groups %}
+                        <option class="" value="{{ group.name }}" name="{{ group.name }}">{{ group.name }}</option>
+                    {% endfor %}
+                    </select>
+                    <label for="group">Group</label>
+                </div>
+                <div class="row">
+                    <button class="add_task" name="add_task" type="submit"><i class="fa fa-plus icon"></i>Add task</button>
+                    <button class="edit_task" name="edit_task" formnovalidate="" type="button"><i class="fa fa-edit icon"></i>Edit Tasks</button>
+                    <button class="delete_task hidden" name="delete_task" formnovalidate="" type="submit" onclick="$('input#sublist').click();"><i class="fa fa-trash-o icon"></i>Delete Tasks</button>
+
+
+                </div>
+
+            <ul class="taskList">
+            {% for todo in todos %}
+                {% if todo.status == 'p' %}
+                    <li class="taskItem">
+                        <input type='hidden' value='{{todo.status}}'>
+                        <span class='taskCheckbox hidden'>
+                            <input type="checkbox" class="" name="checkedbox" id="todo_{{ todo.id }}" value="{{ todo.id }}">
+                            <label for="todo_{{ todo.id }}"></label>
+                        </span>
+                        <span class="complete-">{{ todo.title }}</span>
+                        <span class="group-{{ todo.group }}"><a href="{% url 'by_group' todo.group %}">{{ todo.group }}</a></span>
+                        <span class="toggle_done_undone mark_done">done</span>
+                        <strong class="taskDate"><i class="fa fa-calendar"></i>{{ todo.created|to_jalali:'%y/%m/%d' }}</strong>
+
+                    </li>
+                {% else %}
+                    <!-- <li class="taskItem overlay {{todo.group}}"> -->
+                    <li class="taskItem">
+                        <input type='hidden' value='{{todo.status}}'>
+                        <span class='taskCheckbox hidden'>
+                            <input type="checkbox" name="checkedbox" id="todo_{{ todo.id }}" value="{{ todo.id }}" disabled="disabled">
+                            <label for="todo_{{ todo.id }}"></label>
+                        </span>
+                        <span class="complete-true strikethrough">{{ todo.title }}</span>
+                        <span class="group-{{ todo.group }}"><a href="{% url 'by_group' todo.group %}">{{ todo.group }}</a></span>
+                        <span class="toggle_done_undone mark_undone">undo</span>
+
+                        <strong class="taskDate"><i class="fa fa-calendar"></i>{{ todo.created|to_jalali:'%y/%m/%d' }}</strong>
+                    </li>
+                {% endif %}
+            {% endfor %}
+
+
+            </ul><!-- taskList -->
+            </form>
+            </div><!-- content -->
+    {% endblock content %}
+{% block script %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $("[name='edit_task']").click(function(){
+        $("[name='delete_task']").toggleClass('hidden')
+
+        $(".taskItem").each(function( index ) {
+          //console.log( index + ": " + $( this ).text() );
+            if ($(this).find("input[value='p']").length > 0){
+                $(this).find(".taskCheckbox").toggleClass('hidden')
+            }else if ($(this).find("input[value='d']").length > 0){
+                $(this).find(".taskCheckbox").toggleClass('hidden')
+            }
+        });
+
+    });
+});
+
+$(".toggle_done_undone").click(function () {
+  todo = $(this).parent().find('.taskCheckbox').find('input');
+  todo_id = todo.attr('id')
+  classes = $(this).attr('class')
+
+  $.ajax({
+    url: '/ajax/toggle_done_undone/',
+    data: {
+      'todo_id': todo_id,
+      'classes': classes
+    },
+    dataType: 'json',
+    success: function (data) {
+      if (data.status == 'p') {
+        console.log(todo)
+        console.log(todo.closest('.strikethrough'))
+        todo.parent().parent().find('.strikethrough').removeClass('complete-true strikethrough').addClass('complete-')
+        todo.parent().parent().find('.toggle_done_undone').removeClass('mark_undone').addClass('mark_done').text('DONE')
+        todo.parent().parent().find('.taskCheckbox').find('input').removeAttr('disabled')
+      } else {
+        todo.parent().parent().find('.complete-').addClass('complete-true strikethrough').removeClass('complete-')
+        todo.parent().parent().find('.toggle_done_undone').removeClass('mark_done').addClass('mark_undone').text('UNDO')
+        todo.parent().parent().find('.taskCheckbox').find('input').attr( "disabled", "disabled" )
+      }
+    }
+  });
+});
+</script>
+{% endblock script %}

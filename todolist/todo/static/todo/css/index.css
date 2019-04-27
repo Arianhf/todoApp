@@ -1,0 +1,396 @@
+/* inputs */
+.inputContainer {
+    height: 60px;
+    border-top: 1px solid #e5e5e5;
+    position: relative;
+    overflow: hidden;
+}
+.inputContainer.last {
+    border-bottom: 1px solid #e5e5e5;
+    margin-bottom: 20px;
+}
+.inputContainer.half.last.right {
+    border-left: 1px solid #efefef;
+}
+input[type="date"], input[type="text"], select {
+    height: 100%;
+    width: 100%;
+    padding: 0 20px;
+    position: absolute;
+    top: 0;
+    vertical-align: middle;
+    display: inline-block;
+    border: none;
+    border-radius: none;
+    font-size: 13px;
+    color: #777;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    -webkit-transition: background 0.3s;
+            transition: background 0.3s;
+}
+input[type="date"] {
+    cursor: pointer;
+}
+input[type="date"]:focus, input[type="text"]:focus, select:focus {
+    outline: none;
+    background: #ecf0f1;
+}
+::-webkit-input-placeholder {
+    color: lightgrey;
+    font-weight: normal;
+    -webkit-transition: all 0.3s;
+            transition: all 0.3s;
+}
+::-moz-placeholder {
+    color: lightgrey;
+    font-weight: normal;
+    transition: all 0.3s;
+}
+::-ms-input-placeholder {
+    color: lightgrey;
+    font-weight: normal;
+    transition: all 0.3s;
+}
+input:-moz-placeholder {
+    color: lightgrey;
+    font-weight: normal;
+    transition: all 0.3s;
+}
+input:focus::-webkit-input-placeholder {
+    color: #95a5a6;
+    font-weight: bold;
+}
+input:focus::-moz-input-placeholder {
+    color: #95a5a6;
+    font-weight: bold;
+}
+.inputContainer label {
+    padding: 5px 20px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #777;
+    display: block;
+    position: absolute;
+}
+button {
+    font-family: 'Open Sans', sans-serif;
+    background: transparent;
+    border-radius: 2px;
+    border: none;
+    outline: none;
+    height: 50px;
+    font-size: 14px;
+    color: #fff;
+    cursor: pointer;
+    text-transform: uppercase;
+    position: relative;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    padding-left: 30px;
+    padding-right: 15px;
+}
+.icon {
+    position: absolute;
+    top: 30%;
+    left: 10px;
+    font-size: 20px;
+}
+.add_task {
+    margin:0 5px;
+    background: #444;
+    padding-left: 31px;
+}
+.add_task:hover {
+    background: #303030;
+}
+.delete_task {
+    margin:0 5px;
+    background: #e74c3c;
+    padding-left: 30px;
+}
+.delete_task:hover {
+    background: #c0392b;
+}
+.edit_task {
+    margin:0 5px;
+    background: #ff8d00;
+    padding-left: 30px;
+}
+.edit_task:hover {
+    background: #e79d0d;
+}
+
+/* task styles */
+.taskList {
+    list-style: none;
+    padding: 0 20px;
+}
+.taskItem {
+    border-top: 1px solid #e5e5e5;
+    padding: 15px 0;
+    color: #777;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+.taskList .taskItem:nth-child(even) {
+    background: #fcfcfc;
+}
+.taskCheckbox {
+    width: 20px;
+    margin: 5px 10px;
+    position: relative;
+}
+
+.taskCheckbox label{
+    cursor: pointer;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    top: 0;
+    left: 0;
+    background: #eee;
+    border:1px solid #ddd;
+}
+.taskCheckbox label:after {
+    opacity: 0.2;
+    content: '';
+    position: absolute;
+    width: 9px;
+    height: 5px;
+    background: transparent;
+    top: 6px;
+    left: 7px;
+    border: 3px solid #333;
+    border-top: none;
+    border-right: none;
+
+    transform: rotate(-45deg);
+}
+.taskCheckbox label:hover::after {
+    opacity: 0.5;
+}
+
+.taskCheckbox input[type=checkbox]:checked + label:after {
+    opacity: 1;
+}
+.taskCheckbox input[disabled=disabled] + label:hover::after {
+    opacity: 0.2;
+}
+.taskCheckbox input[disabled=disabled] + label{
+    cursor:default;
+}
+
+.complete- {
+    margin-left :10px;
+}
+
+.complete-true {
+    margin-left:10px;
+    /*text-decoration:  line-through;*/
+    color: #bebebe;
+}
+.taskList .taskDate {
+    color: #95a5a6;
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    display: block;
+    margin-left: 41px;
+}
+.fa-calendar {
+    margin-right: 10px;
+    font-size: 16px;
+}
+
+[class*='group-'] {
+    display: inline-block;
+    font-size: 10px;
+    background: #444;
+    vertical-align: middle;
+    color: #fff;
+    padding: 10px;
+    width: 75px;
+    text-align: center;
+    border-radius: 2px;
+    float: right;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-right: 20px;
+}
+
+[class*='group-'] a{
+    color:white;
+}
+
+[class*='group-'] a:hover{
+    text-decoration: none;
+}
+
+[class*='mark_']{
+    display: inline-block;
+    font-size: 10px;
+    color: green;
+    vertical-align: middle;
+    padding: 10px;
+    width: 50px;
+    text-align: center;
+    border-radius: 2px;
+    float: right;
+    font-weight: normal;
+    text-transform: uppercase;
+    margin-right: 20px;
+    cursor: pointer;
+    text-decoration:underline;
+
+}
+.mark_undone{
+    /*background:red;*/
+    color:red;
+    cursor: pointer;
+}
+
+.group- {
+    background: transparent;
+}
+.group-Personal {
+    background: #2980b9;
+}
+.group-Work {
+    background: #8e44ad;
+}
+.group-School {
+    background: #f39c12;
+}
+.group-Cleaning {
+    background: #16a085;
+}
+.group-Other {
+    background: #d35400;
+}
+footer {
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: #777;
+}
+footer a
+    color: #f39c12;
+}
+/* custom checkboxes */
+
+
+/* custom select menu */
+.taskGroup {
+    -webkit-appearance: none;
+            appearance: none;
+    cursor: pointer;
+    padding-left: 16.5px; /*specific positioning due to difficult behavior of select element*/
+    background: #fff;
+}
+.selectArrow {
+    position: absolute;
+    z-index: 10;
+    top: 35%;
+    right: 0;
+    margin-right: 20px;
+    color: #777;
+    pointer-events: none;
+}
+.taskGroup option {
+    background: #fff;
+    border: none;
+    outline: none;
+    padding: 0 100px;
+}
+
+
+.overlay {
+  position: relative;
+}
+
+.overlay:after {
+  position: absolute;
+  content:"";
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  opacity:0.2;
+}
+
+.General:after{
+    background-color: #444;
+}
+.Personal:after {
+    background-color: #2980b9;
+}
+.Work:after {
+    background-color: #8e44ad;
+}
+.School:after {
+    background-color: #f39c12;
+}
+.Cleaning:after {
+    background-color: #16a085;
+}
+.Other:after {
+    background-color: #d35400;
+}
+
+.green:after {
+  background-color: green;
+}
+
+.orange:after {
+  background-color: orange;
+}
+
+
+
+
+/* Strikethrough */
+
+.strikethrough {
+    display: inline-block;
+    position: relative;
+    transition: all 0.5s cubic-bezier(.55, 0, .1, 1);
+}
+
+.strikethrough:after {
+    content: '';
+    position: absolute;
+    display: block;
+    width: 100%;
+    height: 2px;
+    box-shadow: 0 1px rgba(255,255,255,0.6);
+    margin-top: -0.7em;
+    background: #ccc;
+    transform-origin: center left;
+    animation: strikethrough 1s 0.5s cubic-bezier(.55, 0, .1, 1) 1;
+    transition: transform 0.5s cubic-bezier(.55, 0, .1, 1);
+}
+
+
+
+
+/* Keyframes for initial animation */
+
+@keyframes strikethrough {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.hidden
+{
+   display: none
+}
